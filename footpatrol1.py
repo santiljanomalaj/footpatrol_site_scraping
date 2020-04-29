@@ -3,16 +3,17 @@ from lxml import html
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup as soup
 from dhooks import Webhook, Embed
+from random import randint
 import time
 import re
 import pymysql
 import time, threading
 
 # retrieve proxy IP addresses from proxies.txt file
-# proxies = open("proxies.txt", "rt")
-# proxy = proxies.read()         
-# proxies.close()                   
-# proxy_list = proxy.split("\n")
+proxies = open("proxies.txt", "rt")
+proxy = proxies.read()         
+proxies.close()                   
+proxy_list = proxy.split("\n")
 
 #Connection to MYSQL DB
 conn=pymysql.connect(host="localhost",user="root",password="",db="footpatrol")
@@ -24,10 +25,21 @@ hook = Webhook("https://discordapp.com/api/webhooks/703723259316928573/LxTBMSJ5S
 
 
 # def get_product():
+
+#get proxy_ip
+# random_index = randint(0, len(proxy_list))
+# proxy_ip=get_proxies(random_index)
+# proxy_IP_Port=proxy_ip.split(':')
+# proxy_address=proxy_IP_Port[0]
+# proxy_Port=int(proxy_IP_Port[1])
+
 # set proxy
-  
+# chrome_options=webdriver.ChromeOptions()
+# chrome_options.add_argument('--prox-server=%s' % proxy_ip)
+
 # run chromdriver
 driver = webdriver.Chrome()
+
 time.sleep(4)
 driver.delete_all_cookies()
 time.sleep(3)
@@ -62,11 +74,10 @@ for page in range(pageNum):
     time.sleep(5)
     driver.get(product_link)
 
-    time.sleep(15)
+    time.sleep(40)
     products_response=driver.page_source
     products_info=soup(products_response, 'html.parser')
 
-    time.sleep(25)
     product_link_number=product_link.split('/')
     product_id = re.findall('\d+', product_link_number[5] )
     product_name=products_info.find('div',{'id':'productItemTitle'}).h1.text
