@@ -9,7 +9,7 @@ headers = {
 # request part
 my_url = requests.get("https://www.footpatrol.com/campaign/New+In/brand/jordan/?facet-new=latest",headers=headers)
 
-print(my_url.content)
+print(my_url.status_code)
 '''
 uClient=uReq(my_url)
 page_html=uClient.read()
